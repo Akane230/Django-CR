@@ -1,16 +1,3 @@
----
-
-# ✅ What You Are Building (Simple Overview)
-
-A Django web app that:
-
-* Has a database table storing **text records**
-* `/add` → inserts a text record into the database
-* `/show` → displays all stored records in the browser
-* Uses **URL-triggered HTTP requests only** (no forms required)
-
----
-
 # 1️⃣ Create the Django Project
 
 ```bash
