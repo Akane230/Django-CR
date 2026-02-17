@@ -1,5 +1,3 @@
-Sure 👍 I’ll guide you **step by step**, aligned **exactly** with your requirements. I’ll assume you’re using **Django** with **SQLite** (default and acceptable for relational DB). You can later swap it for MySQL/PostgreSQL if needed.
-
 ---
 
 # ✅ What You Are Building (Simple Overview)
