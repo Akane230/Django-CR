@@ -1,158 +1,58 @@
-# 1️⃣ Create the Django Project
+# Text Records Django Web Application
+
+## Project Overview
+
+This project is a simple web application built using **Django** and a relational database.
+It demonstrates basic database **write and read operations** triggered directly through HTTP URL access.
+
+The application allows:
+
+* Inserting text records into a database
+* Retrieving and displaying all stored records via the browser
+
+---
+
+## Technologies Used
+
+* Python
+* Django Framework
+* SQLite (default Django relational database)
+
+---
+
+## Features
+
+* Properly configured Django project with database integration
+* A database table for storing text-based records
+* URL endpoint for inserting data into the database
+* URL endpoint for retrieving and displaying stored data
+* Successful database migrations and ORM usage
+
+---
+
+## Project Setup Instructions
+
+### 1. Clone or Download the Project
 
 ```bash
-django-admin startproject textproject
+git clone <repository-url>
 cd textproject
-python manage.py startapp textapp
 ```
 
-Your structure should look like:
+### 2. Install Dependencies
 
-```
-textproject/
-├── textproject/
-│   ├── settings.py
-│   ├── urls.py
-├── textapp/
-│   ├── models.py
-│   ├── views.py
-│   ├── urls.py
-└── manage.py
+```bash
+pip install django
 ```
 
----
-
-# 2️⃣ Configure the Database (Requirement ✔)
-
-Open `settings.py`
-
-### Register the app
-
-```python
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'textapp',
-]
-```
-
-### Database configuration (default SQLite)
-
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-```
-
-✔ This already satisfies **“properly connected database backend”**
-
----
-
-# 3️⃣ Create the Model (Database Table)
-
-Open `textapp/models.py`
-
-```python
-from django.db import models
-
-class TextRecord(models.Model):
-    content = models.TextField()
-
-    def __str__(self):
-        return self.content
-```
-
-✔ This defines a **text-based database table**
-
----
-
-# 4️⃣ Run Migrations (Requirement ✔)
+### 3. Run Database Migrations
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-✔ Table is now **created in the database**
-
----
-
-# 5️⃣ Implement the `/add` View (Insert Record)
-
-Open `textapp/views.py`
-
-```python
-from django.http import HttpResponse
-from .models import TextRecord
-
-def add_record(request):
-    # Example text (hardcoded for URL-based access)
-    record = TextRecord(content="Hello from /add endpoint")
-    record.save()
-    return HttpResponse("Record successfully added to the database.")
-```
-
-✔ Inserts data via **browser URL access**
-
----
-
-# 6️⃣ Implement the `/show` View (Retrieve Records)
-
-Add this to `views.py`:
-
-```python
-def show_records(request):
-    records = TextRecord.objects.all()
-    output = "<br>".join([r.content for r in records])
-    return HttpResponse(output)
-```
-
-✔ Retrieves and displays **all stored records**
-
----
-
-# 7️⃣ Configure App URL Routing
-
-Create `textapp/urls.py`
-
-```python
-from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('add', views.add_record),
-    path('show', views.show_records),
-]
-```
-
----
-
-# 8️⃣ Connect App URLs to Project URLs
-
-Open `textproject/urls.py`
-
-```python
-from django.contrib import admin
-from django.urls import path, include
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('textapp.urls')),
-]
-```
-
-✔ URL routing is now properly configured
-
----
-
-# 9️⃣ Run the Server
+### 4. Start the Development Server
 
 ```bash
 python manage.py runserver
@@ -160,50 +60,46 @@ python manage.py runserver
 
 ---
 
-# 🔍 How to Test (Critical for Validation)
+## URL Endpoints
 
-### 1️⃣ Insert data
+### `/add`
 
-Open browser:
+* Inserts a new text record into the database.
+* Access via browser:
 
 ```
 http://127.0.0.1:8000/add
 ```
 
-✔ You should see:
+### `/show`
 
-```
-Record successfully added to the database.
-```
-
-### 2️⃣ Retrieve data
-
-Open:
+* Retrieves and displays all stored text records.
+* Access via browser:
 
 ```
 http://127.0.0.1:8000/show
 ```
 
-✔ You should see:
+---
 
-```
-Hello from /add endpoint
-```
+## Database Structure
 
-Refresh `/add` multiple times → `/show` will list multiple records.
+### TextRecord Table
+
+| Field Name | Type |
+| ---------- | ---- |
+| content    | Text |
 
 ---
 
-# ✅ Requirement Checklist (Mapped Exactly)
+## Validation
 
-| Requirement                  | Status |
-| ---------------------------- | ------ |
-| Database configured          | ✔      |
-| Model with text-based table  | ✔      |
-| Database migrations          | ✔      |
-| `/add` inserts data          | ✔      |
-| `/show` retrieves data       | ✔      |
-| Proper URL routing           | ✔      |
-| HTTP-triggered DB read/write | ✔      |
+* Visiting `/add` successfully stores a record in the database.
+* Visiting `/show` displays all previously stored records.
+* Repeated access to `/add` results in multiple records being saved and shown.
 
 ---
+
+## Conclusion
+
+This project validates basic CRUD operations using Django’s ORM and demonstrates database persistence and retrieval through HTTP URL access.
